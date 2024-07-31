@@ -6,13 +6,14 @@ import fs from 'fs';
 // Create a new book
 export const createBook = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { title, author, publishedDate } = req.body;
+      const { title, author, publishedDate, ISBN } = req.body;
       const image = req.file ? req.file.path : '';
-      const newBook = new Book({ title, author, publishedDate, image });
+      const newBook = new Book({ title, author, publishedDate, image, ISBN});
       const savedBook = await newBook.save();
       res.status(201).json(savedBook);
     } catch (error) {
-      res.status(500).json({ message: 'Server Error' });
+      console.log(error)
+     // res.status(500).json({ message: 'Server Error' });
     }
   };
 
@@ -44,7 +45,7 @@ export const getBookById = async (req: Request, res: Response): Promise<void> =>
   // Update a book by ID
 export const updateBook = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { title, author, publishedDate } = req.body;
+      const { title, author, publishedDate, ISBN } = req.body;
       const image = req.file ? req.file.path : '';
       const updatedBook = await Book.findByIdAndUpdate(
         req.params.id,
