@@ -12,8 +12,8 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
       const savedBook = await newBook.save();
       res.status(201).json(savedBook);
     } catch (error) {
-      console.log(error)
-     // res.status(500).json({ message: 'Server Error' });
+    //console.log(error)
+      res.status(500).json({ message: 'Server Error' });
     }
   };
 
@@ -49,7 +49,7 @@ export const updateBook = async (req: Request, res: Response): Promise<void> => 
       const image = req.file ? req.file.path : '';
       const updatedBook = await Book.findByIdAndUpdate(
         req.params.id,
-        { title, author, publishedDate, image },
+        { title, author, publishedDate, image, ISBN},
         { new: true }
       );
       if (updatedBook) {
